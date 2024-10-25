@@ -1,0 +1,53 @@
+------------------------------------------------------------------------
+r4 | kunda | 2011-08-01 23:16:08 +0000 (Mon, 01 Aug 2011) | 1 line
+Changed paths:
+   A /tags/40200-1 (from /trunk:3)
+
+Tagging as 40200-1
+------------------------------------------------------------------------
+r3 | kunda | 2011-08-01 23:01:51 +0000 (Mon, 01 Aug 2011) | 1 line
+Changed paths:
+   M /trunk/BattlegroundTargets-localization-deDE.lua
+   M /trunk/BattlegroundTargets-localization-enUS.lua
+   M /trunk/BattlegroundTargets-localization-esES.lua
+   M /trunk/BattlegroundTargets-localization-frFR.lua
+   M /trunk/BattlegroundTargets-localization-koKR.lua
+   M /trunk/BattlegroundTargets-localization-ruRU.lua
+   M /trunk/BattlegroundTargets-localization-zhCN.lua
+   M /trunk/BattlegroundTargets-localization-zhTW.lua
+   M /trunk/BattlegroundTargets.lua
+   M /trunk/BattlegroundTargets.toc
+
+update
+------------------------------------------------------------------------
+r2 | kunda | 2011-08-01 17:44:08 +0000 (Mon, 01 Aug 2011) | 4 lines
+Changed paths:
+   A /trunk/.pkgmeta
+   A /trunk/BattlegroundTargets-localization-deDE.lua
+   A /trunk/BattlegroundTargets-localization-enUS.lua
+   A /trunk/BattlegroundTargets-localization-esES.lua
+   A /trunk/BattlegroundTargets-localization-frFR.lua
+   A /trunk/BattlegroundTargets-localization-koKR.lua
+   A /trunk/BattlegroundTargets-localization-ruRU.lua
+   A /trunk/BattlegroundTargets-localization-zhCN.lua
+   A /trunk/BattlegroundTargets-localization-zhTW.lua
+   A /trunk/BattlegroundTargets-localized-bgnames.lua
+   A /trunk/BattlegroundTargets-localized-talents.lua
+   A /trunk/BattlegroundTargets-texture-button.tga
+   A /trunk/BattlegroundTargets-texture-icons.tga
+   A /trunk/BattlegroundTargets.lua
+   A /trunk/BattlegroundTargets.toc
+
+BattlegroundTargets:
+Shows battleground targets.
+
+initial commit
+------------------------------------------------------------------------
+r1 | root | 2011-08-01 17:33:56 +0000 (Mon, 01 Aug 2011) | 1 line
+Changed paths:
+   A /branches
+   A /tags
+   A /trunk
+
+"battlegroundtargets/mainline: Initial Import"
+------------------------------------------------------------------------
