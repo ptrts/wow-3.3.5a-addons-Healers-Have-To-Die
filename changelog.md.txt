@@ -1,0 +1,70 @@
+Healers Have To Die
+===================
+
+*Change log*
+------------
+
+**version 1.8.2 beta 1 (2011-04-03):**
+
+- *New feature:* Logs are available in HHTD's option panel with detailed information about each detected healers (specific spell used, heal amount, activity state). You must check the 'Logging' option to enable logging and add the 'Logs' tab.
+
+- *Fix:* The 'Minimum Heal Amount' filter was ignored by non-healing specialized spells (buffing spells and such). Healers were directly marked.
+
+
+**version 1.8.1 (2011-03-13):**
+
+ - Updated version of LibNamePlate-1.0 (this should fix a Lua error some users experienced)
+
+ - Updated description with links to the official forum threads about HHTD (someone should tell them that only 12,000 people are using HHTD...)
+
+**version 1.8.0 (2011-03-06):**
+
+ - New feature: HHTD now adds the healer role symbol on friendly Healers if allies' name-plates are shown so you can protect your beloved healers and prevent them from being slaughtered!!
+
+ - Changed minimum heal amount to be a percentage of the player maximum health.
+
+
+**version 1.7.0.1 (2011-02-06):**
+
+ - FIX: PVE healer detection was broken when "Healer specialization detection" option was enabled (all NPCs were detected as healers)
+
+**version 1.7.0 (2011-02-05):**
+
+ - New feature: "Healer specialization detection" option. (thanks to Zalgorr for the spell list)
+ - New feature: "Use minimum heal amount filter" option.
+
+ - New command: /hhtdg to open the configuration UI.
+
+ - AceLocale-3.0 library was missing in previous releases preventing HHTD to
+   work in certain conditions.
+ - Fixes and optimizations.
+
+
+**version 1.6.0 (2011-01-22):**
+
+ - Healers-Have-To-Die is now useful in PVE, it's able to ring and add crosses over NPC healers' name plates (can be disabled).
+ - Multiple fixes to detection algorithm: only actual players or NPCs (if option checked) will be reported as healers. (no longer reporting guardians, pets, etc...)
+ - Announcer module: Added an option to disable sounds.
+ - Massive code cleanup and re-organization, now using modules for the different add-on parts.
+ - Added support for AddonLoader.
+
+ - Localization is needed, if you want to contribute: [http://www.wowace.com/addons/healers-have-to-die/localization/][localization]
+
+**version 1.5.1 (2010-10-26):**
+
+ - HHTD is now able to add a red cross above enemy name plates when they've been caught healing.
+ - New option to disable messages printed by HHTD.
+
+
+
+
+
+
+
+
+
+
+
+
+
+[localization]: http://www.wowace.com/addons/healers-have-to-die/localization/

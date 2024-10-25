@@ -1,0 +1,55 @@
+## Interface: 40000
+## X-Curse-Packaged-Version: 1.8.2_beta_1
+## X-Curse-Project-Name: Healers have to die
+## X-Curse-Project-ID: healers-have-to-die
+## X-Curse-Repository-ID: wow/healers-have-to-die/mainline
+
+## Title: Healers Have To Die
+
+## Notes: Spot those bloody healers instantly and help them accomplish their destiny! (PVP and PVE)
+## Notes-frFR: Débusquez ces maudits soigneurs instantanément et aider-les à accomplir leur destinée ! (JCJ et JCE)
+## Notes-deDE: Entdecke auf der Stelle diese verdammten Heiler und sorge dafür daß sie Ihr Schicksal ereilt! (PVE und PVP)
+## Notes-esES: Spot those bloody healers instantly and help them accomplish their destiny! (PVP and PVE)
+## Notes-esMX: Spot those bloody healers instantly and help them accomplish their destiny! (PVP and PVE)
+## Notes-koKR: Spot those bloody healers instantly and help them accomplish their destiny! (PVP and PVE)
+## Notes-ruRU: Мгновенный розыск кровавых лекарей и помощь предрешении их судьбы! (PVP и PVE).
+## Notes-zhCN: Spot those bloody healers instantly and help them accomplish their destiny! (PVP and PVE)
+## Notes-zhTW: Spot those bloody healers instantly and help them accomplish their destiny! (PVP and PVE)
+
+
+## Author: Archarodim
+## Version: 1.8.2_beta_1
+
+## LoadManagers: AddonLoader
+
+## X-LoadOn-Slash: /hhtd
+## X-LoadOn-Always: delayed
+
+## X-Compatible-With: 40000
+## X-Max-Interface: 40000
+## X-Min-Interface: 30300
+
+## SavedVariables: Healers_Have_To_Die
+
+## X-License: All Rights Reserved
+
+## OptionalDeps: Ace3, LibNameplate-1.0
+## X-Embeds: Ace3, LibNameplate-1.0
+
+## X-ReleaseDate: "2011-04-03T20:13:58Z"
+## X-Category: PvP
+## X-eMail: archarodim@teaser.fr
+## X-Website: http://www.2072productions.com/to/healers-have-to-die.php
+
+
+embeds.xml
+
+Localization.lua
+Core.lua
+utils.lua
+
+NamePlateHooker.lua
+
+GraphicalReporter.lua
+
+Announcer.lua
