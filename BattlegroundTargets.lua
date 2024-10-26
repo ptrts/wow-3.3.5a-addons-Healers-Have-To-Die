@@ -66,6 +66,8 @@ local playerFaction = ""  -- player Faction  : 'Horde' or 'Alliance' (set after 
 local oppositeFaction = 0 -- opposite Faction: 0 = 'Horde' or 1 = 'Alliance' (set after event PLAYER_LOGIN)
 
 local ENEMY_Data = {}     -- numerical | all data
+BattlegroundTargets_ENEMY_Data = ENEMY_Data
+
 local FRIEND_Names = {}   -- key/value | key = friendName, value = 0
 local ENEMY_Names = {}    -- key/value | key = enemyName, value = count
 local TARGET_Names = {}   -- key/value | key = friendName, value = enemyName
