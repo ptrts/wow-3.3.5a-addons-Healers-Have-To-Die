@@ -53,17 +53,3 @@ NamePlateHooker.lua
 GraphicalReporter.lua
 
 Announcer.lua
-
-BattlegroundTargets-localized-bgnames.lua
-BattlegroundTargets-localized-talents.lua
-
-BattlegroundTargets-localization-enUS.lua
-BattlegroundTargets-localization-deDE.lua
-BattlegroundTargets-localization-esES.lua
-BattlegroundTargets-localization-frFR.lua
-BattlegroundTargets-localization-koKR.lua
-BattlegroundTargets-localization-ruRU.lua
-BattlegroundTargets-localization-zhCN.lua
-BattlegroundTargets-localization-zhTW.lua
-
-BattlegroundTargets.lua

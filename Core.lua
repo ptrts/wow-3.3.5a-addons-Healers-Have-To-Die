@@ -585,15 +585,19 @@ do
         end
 
         local unitFirstName, unitRealm =  UnitName(unit);
+        local unitFullName = unitFirstName
+        if unitRealm then
+            unitFullName = unitFullName.."-"..unitRealm
+        end
 
         if not pve and not UnitIsPlayer(unit) or UnitIsDead(unit) then
-            self:SendMessage("HHTD_DROP_HEALER", unitFirstName)
+            self:SendMessage("HHTD_DROP_HEALER", unitFirstName, nil, nil, unitFullName)
             --self:Debug("not pve and not UnitIsPlayer(unit) or UnitIsDead(unit)"); -- XXX
             return;
         end
 
         if UnitFactionGroup(unit) == PLAYER_FACTION then
-            self:SendMessage("HHTD_DROP_HEALER", unitFirstName)
+            self:SendMessage("HHTD_DROP_HEALER", unitFirstName, nil, nil, unitFullName)
             --self:Debug("UnitFactionGroup(unit) == PLAYER_FACTION"); -- XXX
             return;
         end
@@ -602,12 +606,12 @@ do
             --self:Debug("UnitIsUnit(\"mouseover\", \"target\")"); -- XXX
 
             if self.Enemy_Healers[unitGuid] then
-                self:SendMessage("HHTD_MOUSE_OVER_OR_TARGET", unit, unitGuid, unitFirstName);
+                self:SendMessage("HHTD_MOUSE_OVER_OR_TARGET", unit, unitGuid, unitFirstName, unitFullName);
             end
 
             return;
         elseif LastDetectedGUID == unitGuid and unit == "target" then
-            self:SendMessage("HHTD_TARGET_LOCKED", unit, unitGuid, unitFirstName)
+            self:SendMessage("HHTD_TARGET_LOCKED", unit, unitGuid, unitFirstName, unitFullName)
             --self:Debug("LastDetectedGUID == unitGuid and unit == \"target\""); -- XXX
 
             return;
@@ -616,7 +620,7 @@ do
         local localizedUnitClass, unitClass = UnitClass(unit);
 
         if not unitClass then
-            self:SendMessage("HHTD_DROP_HEALER", unitFirstName)
+            self:SendMessage("HHTD_DROP_HEALER", unitFirstName, nil, nil, unitFullName)
             self:Debug(WARNING, "No unit Class");
             return;
         end
@@ -635,19 +639,19 @@ do
                     HHTD.Enemy_Healers[unitGuid] = nil;
                     HHTD.Enemy_Healers_By_Name[unitFirstName] = nil;
 
-                    self:SendMessage("HHTD_DROP_HEALER", unitFirstName, unitGuid);
+                    self:SendMessage("HHTD_DROP_HEALER", unitFirstName, unitGuid, nil, unitFullName);
                 else
-                    self:SendMessage("HHTD_HEALER_UNDER_MOUSE", unit, unitGuid, unitFirstName, LastDetectedGUID);
+                    self:SendMessage("HHTD_HEALER_UNDER_MOUSE", unit, unitGuid, unitFirstName, LastDetectedGUID, unitFullName);
                     --self:Debug("HHTD_HEALER_UNDER_MOUSE"); -- XXX
                     LastDetectedGUID = unitGuid;
                 end
             else
                 --self:Debug(INFO2, "did not heal");
-                self:SendMessage("HHTD_MOUSE_OVER_OR_TARGET", unit, unitGuid, unitFirstName);
+                self:SendMessage("HHTD_MOUSE_OVER_OR_TARGET", unit, unitGuid, unitFirstName, unitFullName);
             end
         else
             -- self:Debug(WARNING, "Bad unit Class"); -- XXX
-            self:SendMessage("HHTD_DROP_HEALER", unitFirstName, unitGuid);
+            self:SendMessage("HHTD_DROP_HEALER", unitFirstName, unitGuid, nil, unitFullName);
             HHTD.Enemy_Healers_By_Name_Blacklist[unitFirstName] = GetTime();
         end
 
@@ -891,7 +895,7 @@ do
          Healer_Registry[Source_Is_Friendly].Healers_By_Name[FirstName] = Healer_Registry[Source_Is_Friendly].Healers[sourceGUID];
          -- update plate
          self:Debug(INFO, "Healer detected:", FirstName);
-         self:SendMessage("HHTD_HEALER_DETECTED", FirstName, sourceGUID, Source_Is_Friendly);
+         self:SendMessage("HHTD_HEALER_DETECTED", FirstName, sourceGUID, Source_Is_Friendly, sourceName);
 
          self:Undertaker();
          -- TODO for GEHR: make activity light blink
@@ -931,7 +935,7 @@ do
                  Healer_Registry[Friendly].Healers_By_Name[healerName] = nil;
                  Healer_Registry[Friendly].Total_Heal_By_Name[healerName] = nil;
 
-                 self:SendMessage("HHTD_DROP_HEALER", healerName, nil, Friendly)
+                 self:SendMessage("HHTD_DROP_HEALER", healerName, nil, Friendly, nil)
 
                  self:Debug(INFO2, healerName, "removed");
              end
