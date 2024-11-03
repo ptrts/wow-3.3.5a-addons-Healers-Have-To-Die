@@ -29,7 +29,7 @@
 ## X-Max-Interface: 40000
 ## X-Min-Interface: 30300
 
-## SavedVariables: Healers_Have_To_Die,BattlegroundTargets_Options
+## SavedVariables: Healers_Have_To_Die
 
 ## X-License: All Rights Reserved
 
