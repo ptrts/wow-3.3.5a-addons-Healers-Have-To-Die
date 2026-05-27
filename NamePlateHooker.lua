@@ -340,8 +340,24 @@ end
 
 
 local HHTD_HEALER_Y_OFFSET = 200;
+local RAISED_PLATE_STRATA = "TOOLTIP";
+local RAISED_PLATE_LEVEL = 10000;
+
+local VALID_FRAME_STRATA = {
+    BACKGROUND = true,
+    LOW = true,
+    MEDIUM = true,
+    HIGH = true,
+    DIALOG = true,
+    FULLSCREEN = true,
+    FULLSCREEN_DIALOG = true,
+    TOOLTIP = true,
+};
+
 local RaisePlateYOffset;
 local RestorePlateYOffset;
+local RaisePlateZOrder;
+local RestorePlateZOrder;
 
 do
 
@@ -391,6 +407,45 @@ do
             plate:SetPoint(p.point, p.relativeTo, p.relativePoint, p.xOfs, p.yOfs);
             plate.HHTD_IsRaised = false;
             plate.HHTD_OriginalPoint = nil;
+        end
+    end
+
+    RaisePlateZOrder = function(plate)
+        if not plate then return end
+
+        if plate.HHTD_OriginalFrameLevel == nil then
+            plate.HHTD_OriginalFrameLevel = plate:GetFrameLevel();
+        end
+
+        if plate.HHTD_OriginalFrameStrata == nil then
+            local strata = plate:GetFrameStrata();
+            if strata and VALID_FRAME_STRATA[strata] then
+                plate.HHTD_OriginalFrameStrata = strata;
+            else
+                plate.HHTD_OriginalFrameStrata = false;
+            end
+        end
+
+        plate:SetFrameStrata(RAISED_PLATE_STRATA);
+        plate:SetFrameLevel(RAISED_PLATE_LEVEL);
+    end
+
+    RestorePlateZOrder = function(plate)
+        if not plate then return end
+
+        local originalStrata = plate.HHTD_OriginalFrameStrata;
+        if originalStrata ~= nil then
+            if originalStrata and VALID_FRAME_STRATA[originalStrata] then
+                plate:SetFrameStrata(originalStrata);
+            else
+                plate:SetFrameStrata("MEDIUM");
+            end
+            plate.HHTD_OriginalFrameStrata = nil;
+        end
+
+        if plate.HHTD_OriginalFrameLevel ~= nil then
+            plate:SetFrameLevel(plate.HHTD_OriginalFrameLevel);
+            plate.HHTD_OriginalFrameLevel = nil;
         end
     end
 
@@ -462,6 +517,7 @@ do
         end
 
         RaisePlateYOffset(plate);
+        RaisePlateZOrder(plate);
 
         return true;
 
@@ -493,9 +549,7 @@ function NPH:HideCrossFromPlate(plate) -- {{{
     end
 
     RestorePlateYOffset(plate);
-
-
-
+    RestorePlateZOrder(plate);
 
 end -- }}}
 
