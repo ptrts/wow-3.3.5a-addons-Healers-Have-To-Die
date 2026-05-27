@@ -339,7 +339,7 @@ end
 -- }}}
 
 
-local HHTD_HEALER_Y_OFFSET = 18;
+local HHTD_HEALER_Y_OFFSET = 200;
 local RaisePlateYOffset;
 local RestorePlateYOffset;
 
