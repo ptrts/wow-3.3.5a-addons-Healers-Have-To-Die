@@ -339,7 +339,6 @@ end
 -- }}}
 
 
-local HHTD_HEALER_Y_OFFSET = 200;
 local RAISED_PLATE_STRATA = "TOOLTIP";
 local RAISED_PLATE_LEVEL_BOOST = 20;
 
@@ -375,48 +374,14 @@ do
 
     RaisePlateYOffset = function(plate)
         if not plate then return end
-
-        if not plate.HHTD_OriginalPoint then
-            local point, relativeTo, relativePoint, xOfs, yOfs = plate:GetPoint(1);
-            if not point then
-                return;
-            end
-            plate.HHTD_OriginalPoint = {
-                point = point,
-                relativeTo = relativeTo,
-                relativePoint = relativePoint,
-                xOfs = xOfs,
-                yOfs = yOfs,
-            };
-        end
-
-        local p = plate.HHTD_OriginalPoint;
-        local targetYOfs = p.yOfs + HHTD_HEALER_Y_OFFSET;
-        local point, relativeTo, relativePoint, xOfs, yOfs = plate:GetPoint(1);
-
-        if not plate.HHTD_IsRaised
-            or point ~= p.point
-            or relativeTo ~= p.relativeTo
-            or relativePoint ~= p.relativePoint
-            or xOfs ~= p.xOfs
-            or yOfs ~= targetYOfs then
-
-            plate:ClearAllPoints();
-            plate:SetPoint(p.point, p.relativeTo, p.relativePoint, p.xOfs, targetYOfs);
-            plate.HHTD_IsRaised = true;
-        end
+        -- NOTE:
+        -- Re-anchoring the plate itself moves the clickable hitbox away from the unit
+        -- (player ends up clicking "empty air" above the character).
+        -- Keep the frame position untouched to preserve native nameplate click behavior.
     end
 
     RestorePlateYOffset = function(plate)
         if not plate then return end
-
-        if plate.HHTD_IsRaised and plate.HHTD_OriginalPoint then
-            local p = plate.HHTD_OriginalPoint;
-            plate:ClearAllPoints();
-            plate:SetPoint(p.point, p.relativeTo, p.relativePoint, p.xOfs, p.yOfs);
-            plate.HHTD_IsRaised = false;
-            plate.HHTD_OriginalPoint = nil;
-        end
     end
 
     RaisePlateZOrder = function(plate)
