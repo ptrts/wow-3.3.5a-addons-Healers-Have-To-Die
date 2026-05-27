@@ -341,6 +341,7 @@ end
 
 local RAISED_PLATE_STRATA = "TOOLTIP";
 local RAISED_PLATE_LEVEL_BOOST = 20;
+local HHTD_HEALER_VISUAL_Y_OFFSET = 200;
 
 local VALID_FRAME_STRATA = {
     BACKGROUND = true,
@@ -374,14 +375,53 @@ do
 
     RaisePlateYOffset = function(plate)
         if not plate then return end
-        -- NOTE:
-        -- Re-anchoring the plate itself moves the clickable hitbox away from the unit
-        -- (player ends up clicking "empty air" above the character).
-        -- Keep the frame position untouched to preserve native nameplate click behavior.
+        local visual = plate.visual;
+        if not visual or not visual.GetPoint or not visual.SetPoint or not visual.ClearAllPoints then
+            return;
+        end
+
+        if not visual.HHTD_OriginalPoint then
+            local point, relativeTo, relativePoint, xOfs, yOfs = visual:GetPoint(1);
+            if not point then
+                return;
+            end
+            visual.HHTD_OriginalPoint = {
+                point = point,
+                relativeTo = relativeTo,
+                relativePoint = relativePoint,
+                xOfs = xOfs,
+                yOfs = yOfs,
+            };
+        end
+
+        local p = visual.HHTD_OriginalPoint;
+        local targetYOfs = p.yOfs + HHTD_HEALER_VISUAL_Y_OFFSET;
+        local point, relativeTo, relativePoint, xOfs, yOfs = visual:GetPoint(1);
+
+        if not visual.HHTD_IsRaised
+            or point ~= p.point
+            or relativeTo ~= p.relativeTo
+            or relativePoint ~= p.relativePoint
+            or xOfs ~= p.xOfs
+            or yOfs ~= targetYOfs then
+            visual:ClearAllPoints();
+            visual:SetPoint(p.point, p.relativeTo, p.relativePoint, p.xOfs, targetYOfs);
+            visual.HHTD_IsRaised = true;
+        end
     end
 
     RestorePlateYOffset = function(plate)
         if not plate then return end
+        local visual = plate.visual;
+        if not visual or not visual.HHTD_IsRaised or not visual.HHTD_OriginalPoint then
+            return;
+        end
+
+        local p = visual.HHTD_OriginalPoint;
+        visual:ClearAllPoints();
+        visual:SetPoint(p.point, p.relativeTo, p.relativePoint, p.xOfs, p.yOfs);
+        visual.HHTD_IsRaised = false;
+        visual.HHTD_OriginalPoint = nil;
     end
 
     RaisePlateZOrder = function(plate)
