@@ -339,6 +339,9 @@ end
 -- }}}
 
 
+local RaisePlateZOrder;
+local RestorePlateZOrder;
+
 do
 
     local function MakeTexture(plate)
@@ -353,7 +356,7 @@ do
 
     end
 
-    local function RaisePlateZOrder(plate)
+    RaisePlateZOrder = function(plate)
         if not plate then return end
 
         if not plate.HHTD_OriginalFrameStrata then
@@ -368,7 +371,7 @@ do
         plate:SetFrameLevel(128);
     end
 
-    local function RestorePlateZOrder(plate)
+    RestorePlateZOrder = function(plate)
         if not plate then return end
 
         if plate.HHTD_OriginalFrameStrata then
