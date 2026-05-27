@@ -390,10 +390,19 @@ do
             };
         end
 
-        if not plate.HHTD_IsRaised then
-            local p = plate.HHTD_OriginalPoint;
+        local p = plate.HHTD_OriginalPoint;
+        local targetYOfs = p.yOfs + HHTD_HEALER_Y_OFFSET;
+        local point, relativeTo, relativePoint, xOfs, yOfs = plate:GetPoint(1);
+
+        if not plate.HHTD_IsRaised
+            or point ~= p.point
+            or relativeTo ~= p.relativeTo
+            or relativePoint ~= p.relativePoint
+            or xOfs ~= p.xOfs
+            or yOfs ~= targetYOfs then
+
             plate:ClearAllPoints();
-            plate:SetPoint(p.point, p.relativeTo, p.relativePoint, p.xOfs, p.yOfs + HHTD_HEALER_Y_OFFSET);
+            plate:SetPoint(p.point, p.relativeTo, p.relativePoint, p.xOfs, targetYOfs);
             plate.HHTD_IsRaised = true;
         end
     end
@@ -554,4 +563,3 @@ function NPH:HideCrossFromPlate(plate) -- {{{
     RestorePlateZOrder(plate);
 
 end -- }}}
-
