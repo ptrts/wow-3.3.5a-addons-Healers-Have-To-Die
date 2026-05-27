@@ -340,6 +340,8 @@ end
 
 
 local HHTD_HEALER_Y_OFFSET = 18;
+local RaisePlateYOffset;
+local RestorePlateYOffset;
 
 do
 
@@ -355,7 +357,7 @@ do
 
     end
 
-    local function RaisePlateYOffset(plate)
+    RaisePlateYOffset = function(plate)
         if not plate then return end
 
         if not plate.HHTD_OriginalPoint then
@@ -380,7 +382,7 @@ do
         end
     end
 
-    local function RestorePlateYOffset(plate)
+    RestorePlateYOffset = function(plate)
         if not plate then return end
 
         if plate.HHTD_IsRaised and plate.HHTD_OriginalPoint then
