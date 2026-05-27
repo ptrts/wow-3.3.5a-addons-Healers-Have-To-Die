@@ -343,13 +343,43 @@ do
 
     local function MakeTexture(plate)
         --local f = CreateFrame("Frame", nil, plate)
-        local t = plate:CreateTexture()
+        local t = plate:CreateTexture(nil, "OVERLAY")
+        t:SetDrawLayer("OVERLAY", 7);
         t:SetWidth(64);
         t:SetHeight(64);
         t:SetPoint("BOTTOM", plate, "TOP", 0, -20);
-                
+
         return t
 
+    end
+
+    local function RaisePlateZOrder(plate)
+        if not plate then return end
+
+        if not plate.HHTD_OriginalFrameStrata then
+            plate.HHTD_OriginalFrameStrata = plate:GetFrameStrata();
+        end
+
+        if not plate.HHTD_OriginalFrameLevel then
+            plate.HHTD_OriginalFrameLevel = plate:GetFrameLevel();
+        end
+
+        plate:SetFrameStrata("TOOLTIP");
+        plate:SetFrameLevel(128);
+    end
+
+    local function RestorePlateZOrder(plate)
+        if not plate then return end
+
+        if plate.HHTD_OriginalFrameStrata then
+            plate:SetFrameStrata(plate.HHTD_OriginalFrameStrata);
+            plate.HHTD_OriginalFrameStrata = nil;
+        end
+
+        if plate.HHTD_OriginalFrameLevel then
+            plate:SetFrameLevel(plate.HHTD_OriginalFrameLevel);
+            plate.HHTD_OriginalFrameLevel = nil;
+        end
     end
 
     local function RegisterAndShowTexture(where, texture, plateName)
@@ -419,6 +449,8 @@ do
             self.Friendly_Healers_Plates_byName[plateName] = plate;
         end
 
+        RaisePlateZOrder(plate);
+
         return true;
 
     end -- }}}
@@ -443,6 +475,12 @@ function NPH:HideCrossFromPlate(plate) -- {{{
 
         self:Debug(INFO2, "|cff00ff00Friendly|c Cross hidden for", plate.HHTD_FriendHealer.PlateNam);
     end
+
+    if plate and (plate.HHTD_EnemyHealer and plate.HHTD_EnemyHealer.IsShown or plate.HHTD_FriendHealer and plate.HHTD_FriendHealer.IsShown) then
+        return;
+    end
+
+    RestorePlateZOrder(plate);
 
 
 
