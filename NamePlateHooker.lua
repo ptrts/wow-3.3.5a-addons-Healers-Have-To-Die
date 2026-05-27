@@ -339,18 +339,7 @@ end
 -- }}}
 
 
-local RaisePlateZOrder;
-local RestorePlateZOrder;
-local VALID_FRAME_STRATA = {
-    BACKGROUND = true,
-    LOW = true,
-    MEDIUM = true,
-    HIGH = true,
-    DIALOG = true,
-    FULLSCREEN = true,
-    FULLSCREEN_DIALOG = true,
-    TOOLTIP = true,
-};
+local HHTD_HEALER_Y_OFFSET = 18;
 
 do
 
@@ -360,43 +349,46 @@ do
         t:SetDrawLayer("OVERLAY", 7);
         t:SetWidth(64);
         t:SetHeight(64);
-        t:SetPoint("BOTTOM", plate, "TOP", 0, -20);
+        t:SetPoint("BOTTOM", plate, "TOP", 0, -8);
 
         return t
 
     end
 
-    RaisePlateZOrder = function(plate)
+    local function RaisePlateYOffset(plate)
         if not plate then return end
 
-        if plate.HHTD_OriginalFrameStrata == nil then
-            local strata = plate:GetFrameStrata();
-            plate.HHTD_OriginalFrameStrata = VALID_FRAME_STRATA[strata] and strata or false;
+        if not plate.HHTD_OriginalPoint then
+            local point, relativeTo, relativePoint, xOfs, yOfs = plate:GetPoint(1);
+            if not point then
+                return;
+            end
+            plate.HHTD_OriginalPoint = {
+                point = point,
+                relativeTo = relativeTo,
+                relativePoint = relativePoint,
+                xOfs = xOfs,
+                yOfs = yOfs,
+            };
         end
 
-        if plate.HHTD_OriginalFrameLevel == nil then
-            plate.HHTD_OriginalFrameLevel = plate:GetFrameLevel();
+        if not plate.HHTD_IsRaised then
+            local p = plate.HHTD_OriginalPoint;
+            plate:ClearAllPoints();
+            plate:SetPoint(p.point, p.relativeTo, p.relativePoint, p.xOfs, p.yOfs + HHTD_HEALER_Y_OFFSET);
+            plate.HHTD_IsRaised = true;
         end
-
-        plate:SetFrameStrata("TOOLTIP");
-        plate:SetFrameLevel(128);
     end
 
-    RestorePlateZOrder = function(plate)
+    local function RestorePlateYOffset(plate)
         if not plate then return end
 
-        if plate.HHTD_OriginalFrameStrata ~= nil then
-            if plate.HHTD_OriginalFrameStrata then
-                plate:SetFrameStrata(plate.HHTD_OriginalFrameStrata);
-            else
-                plate:SetFrameStrata("MEDIUM");
-            end
-            plate.HHTD_OriginalFrameStrata = nil;
-        end
-
-        if plate.HHTD_OriginalFrameLevel ~= nil then
-            plate:SetFrameLevel(plate.HHTD_OriginalFrameLevel);
-            plate.HHTD_OriginalFrameLevel = nil;
+        if plate.HHTD_IsRaised and plate.HHTD_OriginalPoint then
+            local p = plate.HHTD_OriginalPoint;
+            plate:ClearAllPoints();
+            plate:SetPoint(p.point, p.relativeTo, p.relativePoint, p.xOfs, p.yOfs);
+            plate.HHTD_IsRaised = false;
+            plate.HHTD_OriginalPoint = nil;
         end
     end
 
@@ -467,7 +459,7 @@ do
             self.Friendly_Healers_Plates_byName[plateName] = plate;
         end
 
-        RaisePlateZOrder(plate);
+        RaisePlateYOffset(plate);
 
         return true;
 
@@ -498,7 +490,7 @@ function NPH:HideCrossFromPlate(plate) -- {{{
         return;
     end
 
-    RestorePlateZOrder(plate);
+    RestorePlateYOffset(plate);
 
 
 
