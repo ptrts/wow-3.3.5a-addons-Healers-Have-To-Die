@@ -341,7 +341,7 @@ end
 
 local HHTD_HEALER_Y_OFFSET = 200;
 local RAISED_PLATE_STRATA = "TOOLTIP";
-local RAISED_PLATE_LEVEL = 10000;
+local RAISED_PLATE_LEVEL_BOOST = 20;
 
 local VALID_FRAME_STRATA = {
     BACKGROUND = true,
@@ -427,7 +427,9 @@ do
         end
 
         plate:SetFrameStrata(RAISED_PLATE_STRATA);
-        plate:SetFrameLevel(RAISED_PLATE_LEVEL);
+
+        local originalLevel = plate.HHTD_OriginalFrameLevel or plate:GetFrameLevel() or 0;
+        plate:SetFrameLevel(originalLevel + RAISED_PLATE_LEVEL_BOOST);
     end
 
     RestorePlateZOrder = function(plate)
