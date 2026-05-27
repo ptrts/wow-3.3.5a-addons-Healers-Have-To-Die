@@ -341,6 +341,16 @@ end
 
 local RaisePlateZOrder;
 local RestorePlateZOrder;
+local VALID_FRAME_STRATA = {
+    BACKGROUND = true,
+    LOW = true,
+    MEDIUM = true,
+    HIGH = true,
+    DIALOG = true,
+    FULLSCREEN = true,
+    FULLSCREEN_DIALOG = true,
+    TOOLTIP = true,
+};
 
 do
 
@@ -359,11 +369,12 @@ do
     RaisePlateZOrder = function(plate)
         if not plate then return end
 
-        if not plate.HHTD_OriginalFrameStrata then
-            plate.HHTD_OriginalFrameStrata = plate:GetFrameStrata();
+        if plate.HHTD_OriginalFrameStrata == nil then
+            local strata = plate:GetFrameStrata();
+            plate.HHTD_OriginalFrameStrata = VALID_FRAME_STRATA[strata] and strata or false;
         end
 
-        if not plate.HHTD_OriginalFrameLevel then
+        if plate.HHTD_OriginalFrameLevel == nil then
             plate.HHTD_OriginalFrameLevel = plate:GetFrameLevel();
         end
 
@@ -374,12 +385,16 @@ do
     RestorePlateZOrder = function(plate)
         if not plate then return end
 
-        if plate.HHTD_OriginalFrameStrata then
-            plate:SetFrameStrata(plate.HHTD_OriginalFrameStrata);
+        if plate.HHTD_OriginalFrameStrata ~= nil then
+            if plate.HHTD_OriginalFrameStrata then
+                plate:SetFrameStrata(plate.HHTD_OriginalFrameStrata);
+            else
+                plate:SetFrameStrata("MEDIUM");
+            end
             plate.HHTD_OriginalFrameStrata = nil;
         end
 
-        if plate.HHTD_OriginalFrameLevel then
+        if plate.HHTD_OriginalFrameLevel ~= nil then
             plate:SetFrameLevel(plate.HHTD_OriginalFrameLevel);
             plate.HHTD_OriginalFrameLevel = nil;
         end
